@@ -27,10 +27,10 @@
     </bean>
 
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider ref="restAuthenticationManager" />
+        <security:authentication-provider ref="restAuthenticationProvider" />
     </security:authentication-manager>
 
-    <bean id="restAuthenticationManager" class="rest.demo.RestAuthenticationProvider" />
+    <bean id="restAuthenticationProvider" class="rest.demo.RestAuthenticationProvider" />
 
 
 
