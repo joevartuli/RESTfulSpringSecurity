@@ -13,6 +13,11 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <!--
+        Spring Security Filter Chain. This filter-name must not be changed.
+        The <http> namespace creates a Spring bean with this name and the DelegatingFilterProxy
+        will use this filter-name to delegate to the bean.
+     -->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

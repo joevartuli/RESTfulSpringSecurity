@@ -14,7 +14,8 @@ import java.util.List;
  * User: Joseph Vartuli
  * Date: 25/08/12
  *
- * @since:
+ * Simple Authentication Provider ensuring that the username and password is jack and jill.
+ * This is the place to put in a more comprehensive data layer and security model.
  */
 public class RestAuthenticationProvider implements AuthenticationProvider {
 
@@ -25,7 +26,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         String key = restToken.getKey();
         String credentials = restToken.getCredentials();
 
-        if (key.equals("Basic Og==")) {
+        if (!key.equals("jack") || !credentials.equals("jill")) {
             throw new BadCredentialsException("Enter a username and password");
         }
 
@@ -40,6 +41,9 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
+    /*
+        Determines if this class can support the token provided by the filter.
+     */
     public boolean supports(Class<?> authentication) {
         return RestToken.class.equals(authentication);
     }

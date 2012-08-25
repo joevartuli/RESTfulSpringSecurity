@@ -8,20 +8,23 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-    
     <context:component-scan base-package="rest.demo" />
-
     <mvc:annotation-driven />
 
+    <!-- Creates the springSecurityFilterChain with the customer filter customRestFilter injected.  -->
     <security:http create-session="stateless" entry-point-ref="authenticationEntryPoint" authentication-manager-ref="authenticationManager">
         <security:custom-filter ref="customRestFilter" position="BASIC_AUTH_FILTER" />
         <security:intercept-url pattern="/**" access="ROLE_USER" />
     </security:http>
 
+    <!-- The authenticationEntryPoint allows us to customise to start the authentication process (i.e. bring up the dialog box when no header is present)
+     The realmName will be displayed in the dialog box, hence not wise to put the username and password in it.
+    -->
     <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
-        <property name="realmName" value="Not Authorized" />
+        <property name="realmName" value="Username: jack Password: jill" />
     </bean>
 
+    <!-- Our customer Basic Authentication Filter. This can be replaced with what ever authentication process you wish -->
     <bean id="customRestFilter" class="rest.demo.CustomRestSecurityFilter">
         <constructor-arg name="authenticationManager" ref="authenticationManager" />
     </bean>
@@ -30,10 +33,10 @@
         <security:authentication-provider ref="restAuthenticationProvider" />
     </security:authentication-manager>
 
+    <!-- The restAuthenticationProvider is the class responsible for verifying that the username and password are valid and
+    returning an AuthenticationToken matching the user requesting the resource and the user's access level.
+    This is the place where you would normally hook into a more complex authentication system and user data layer. -->
     <bean id="restAuthenticationProvider" class="rest.demo.RestAuthenticationProvider" />
-
-
-
 
 </beans>
 
